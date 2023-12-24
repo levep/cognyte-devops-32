@@ -1,0 +1,44 @@
+version: '3.8'
+
+networks:
+  jenkins:
+    driver: bridge
+
+volumes:
+  data:
+    name: jenkins-data
+  certs:
+    name: jenkins-docker-certs
+
+services:
+  jenkins:
+    container_name: true_jenkins
+    build:
+      dockerfile: jenkins_dockerfile
+    restart: on-failure
+    ports:
+      - 8080:8080
+      - 5000:5000
+    volumes:
+      - certs:/certs/client:ro
+      - data:/var/jenkins_home
+    depends_on:
+      - jenkins_bind
+    networks:
+      - jenkins
+
+  jenkins_bind:
+    container_name: bind_jenkins
+    build: 
+      dockerfile: jenkins_bind_dockerfile
+    restart: on-failure
+    privileged: true
+    volumes:
+      - certs:/certs/client
+      - data:/var/jenkins_home
+    ports:
+      - 2376:2376
+    networks:
+      jenkins:
+        aliases:
+          - docker
