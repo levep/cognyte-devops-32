@@ -1,0 +1,7 @@
+prometheus:
+  prometheusSpec:
+    additionalScrapeConfigs:
+      - job_name: 'java'
+        static_configs:
+        - targets: ['10.1.0.184:30100']
+
