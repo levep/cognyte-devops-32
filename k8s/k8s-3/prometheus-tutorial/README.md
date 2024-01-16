@@ -30,11 +30,6 @@ kubectl port-forward --address 0.0.0.0 svc/my-monitoring-grafana 8081:80
 ```
 ### User/Password: admin/prom-operator
 ### Explore dashboards, Grafana configuration etc,.
-### Query example from Kubernetes/Compute Resources dashboard, "Rate of Transmitted Packets", execute on Prometheus UI
-```
-(sum(irate(container_network_transmit_bytes_total{job="kubelet", metrics_path="/metrics/cadvisor", namespace="default"}[1m]) * on (namespace,pod) group_left(workload,workload_type) namespace_workload_pod:kube_pod_owner:relabel{namespace="default", workload=~".+"}) by (workload))
-```
----
 ### Explore values.yaml
 ```
 helm pull prometheus-community/kube-prometheus-stack
@@ -42,6 +37,24 @@ tar xvf kube-prometheus-stack-45.9.1.tgz
 cd kube-prometheus-stack
 ```
 ### Take time to review values.yaml
+
+### JMX-exporter
+```
+cd jmx-exporter-kubernetes
+docker build -t fayfa/jmx:v3 .
+cd manifests
+kubectl apply -f .
+kubectl get pods -o wide
+```
+#### copy IP for tomcat and paste it in line 6 at values.yaml
+#### Update prometheus:
+```
+helm upgrade --install my-monitoring prometheus-community/kube-prometheus-stack -f value.yaml
+```
+#### Check in Prometheus UI target java is apper
+#### Let's add dashboard in Grafana
+#### Go to dashboards and add new dashboard and import 8563
+
 
 
 

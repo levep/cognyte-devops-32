@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: rahasak-kubectl
+  namespace: rahasak
+spec:
+  containers:
+  - image: bibinwilson/docker-kubectl:latest
+    name: kubectl
+  serviceAccountName: rahasak-serviceaccount
