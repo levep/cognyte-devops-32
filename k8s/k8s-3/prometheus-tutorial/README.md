@@ -38,7 +38,7 @@ cd kube-prometheus-stack
 ```
 ### Take time to review values.yaml
 
-### JMX-exporter
+### JMX-exporter (PodMonitor, ServiceMonitor CRD)
 ```
 cd jmx-exporter-kubernetes
 docker build -t fayfa/jmx:v3 .
